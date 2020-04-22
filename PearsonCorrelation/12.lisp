@@ -17,7 +17,16 @@
                                       xs))
                   (reduce #'+ (mapcar #'(lambda (yi) (square (- yi y-bar)))
                                       ys))))))))
-									  
+							
+(defun fisher-z-transform (r)
+  (* 1/2 (log (/ (1+ r) (- 1 r)))))
+  
+(defun phi (x)
+  "Adopted from CLASP 1.4.3, see copyright notice at http://eksl-www.cs.umass.edu/clasp.html"
+  (setf x (coerce x 'double-float))
+  (locally (declare (type double-float x))
+    (* 0.5d0 (+ 1.0d0 (error-function (/ x (sqrt 2.0d0)))))))
+							
 (defun correlation-test-two-sample (r1 n1 r2 n2 &key (tails :both))
   (let* ((z1 (fisher-z-transform r1))
          (z2 (fisher-z-transform r2))
